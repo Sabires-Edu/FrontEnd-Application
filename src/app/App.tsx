@@ -1,14 +1,17 @@
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { LoginPage } from '../features/auth/pages/LoginPage'
+import { RegisterPage } from '../features/auth/pages/RegisterPage'
+
 function App() {
   return (
-    <main className="min-h-screen bg-white text-zinc-950">
-      <div className="p-8">
-        <h1 className="text-3xl font-semibold">Sabires</h1>
-
-        <p className="mt-2 text-zinc-600">
-          Front-end em desenvolvimento.
-        </p>
-      </div>
-    </main>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/cadastro" element={<RegisterPage />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

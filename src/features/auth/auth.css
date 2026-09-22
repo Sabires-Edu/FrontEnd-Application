@@ -1,0 +1,34 @@
+.sabires-auth {
+  font-family: 'Inter', sans-serif;
+  background: #fffafa;
+  color: #1f2937;
+}
+
+.sabires-auth .sabires-heading {
+  font-family: 'Sora', sans-serif;
+}
+
+.sabires-auth .sabires-orbit {
+  animation: sabires-orbit 20s linear infinite;
+}
+
+.sabires-auth .sabires-ripple {
+  animation: sabires-ripple 2s ease infinite;
+}
+
+@keyframes sabires-orbit {
+  from { transform: rotate(0deg) translateY(var(--radius)) rotate(0deg); }
+  to { transform: rotate(360deg) translateY(var(--radius)) rotate(-360deg); }
+}
+
+@keyframes sabires-ripple {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(0.9); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sabires-auth .sabires-orbit,
+  .sabires-auth .sabires-ripple {
+    animation-play-state: paused;
+  }
+}
