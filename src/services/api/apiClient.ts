@@ -41,7 +41,7 @@ export async function apiRequest<T>(
 
   if (!response.ok) {
     throw new ApiError(
-      'Ocorreu um erro ao comunicar com a API.',
+      'Não foi possível conectar ao servidor. Tente novamente em instantes.',
       response.status,
       data,
     )
