@@ -1,0 +1,8 @@
+.sabires-glow { position: relative; isolation: isolate; border: 1px solid #dce6e1; border-radius: 16px; padding: 22px; background: #fff; }
+.sabires-glow--sm { width: 192px; min-height: 256px; }
+.sabires-glow--md { width: 256px; min-height: 320px; }
+.sabires-glow--lg { width: 320px; min-height: 384px; }
+.sabires-glow::before, .sabires-glow::after { content: ''; position: absolute; pointer-events: none; border-radius: inherit; opacity: 0; }
+.sabires-glow::before { inset: 0; z-index: -1; background: radial-gradient(180px circle at var(--glow-x, 50%) var(--glow-y, 50%), hsl(var(--glow-hue) 65% 50% / .07), transparent); }
+.sabires-glow::after { inset: -1px; border: 1px solid transparent; background: radial-gradient(150px circle at var(--glow-x, 50%) var(--glow-y, 50%), hsl(var(--glow-hue) 65% 40% / .5), transparent) border-box; mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0); mask-composite: exclude; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) { .sabires-glow:hover::before, .sabires-glow:hover::after { opacity: 1; } }
