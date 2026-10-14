@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react'
 import { ImagePlus, Paperclip, PenLine, X } from 'lucide-react'
-import { mockViewer } from '../data/mockFeed'
+import { useDemoSession } from '../../demo/demoContext'
 import { Avatar } from './Avatar'
 import type { DemoPostDraft } from '../types/feed.types'
 
 // Composer Input pattern: text, removable attachments and explicit draft state.
 export function PostComposer({ onPublish }: { onPublish: (draft: DemoPostDraft) => void }) {
+  const { viewer: mockViewer } = useDemoSession()
   const [expanded, setExpanded] = useState(false)
   const [text, setText] = useState('')
   const [files, setFiles] = useState<File[]>([])

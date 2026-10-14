@@ -38,12 +38,15 @@ sem listeners globais, sem touchAction e sem efeito sob reduced-motion/touch.
   Não há upload, leitura do conteúdo, URL de preview ou download fictício. Um
   anexo sozinho permite testar o fluxo. Os arquivos são liberados do rascunho
   após publicar; a publicação guarda apenas metadados, em memória.
-- Curtidas e lista de salvos são locais. Recarregar/abandonar a rota limpa tudo.
+- Posts, curtidas, salvos, identidade e solicitações simuladas são compartilhados
+  em memória com o Perfil por `features/demo`. Recarregar ou sair do grupo de
+  rotas demonstrativas limpa tudo. Rascunhos permanecem locais aos componentes.
 - Comentários/respostas de exemplo expandem; rascunhos não são enviados.
-- Conectar/compartilhar/notificações informam indisponibilidade, sem sucesso falso.
+- Conectar alterna uma solicitação simulada com opção de desfazer, sincronizada
+  com o Perfil. Compartilhar/notificações informam indisponibilidade.
 - Busca é visual e explica que está em desenvolvimento. Navegação de estudantes
   e salvos usa vistas locais da mesma página; itens futuros não levam a outra rota.
-- Explorar foi removido. Perfil, Mensagens e Postagens indicam “Em breve”; a
+- Explorar foi removido. Perfil abre `/profile`; Mensagens e Postagens indicam “Em breve”; a
   vista Estudantes representa a descoberta de usuários. Cabeçalho e sidebar
   indicam corretamente a vista ativa, inclusive ao voltar pela marca Sabires.
 - Material editorial é ilustração CSS local, sem URL externa ou arquivo fictício.

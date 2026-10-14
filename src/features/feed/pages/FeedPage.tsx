@@ -5,18 +5,19 @@ import { FeedSidebar } from '../components/FeedSidebar'
 import { PostComposer } from '../components/PostComposer'
 import { SuggestedStudents } from '../components/SuggestedStudents'
 import { FeedContent } from '../components/FeedContent'
-import { mockPosts, mockViewer } from '../data/mockFeed'
-import type { DemoPostDraft, FeedPost } from '../types/feed.types'
+import { useSearchParams } from 'react-router-dom'
+import { useDemoSession } from '../../demo/demoContext'
+import type { DemoPostDraft } from '../types/feed.types'
 import '../feed.css'
 
 // Public development preview. No API calls, token reads or auth assumptions.
 export function FeedPage() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [collapsed, setCollapsed] = useState(false)
-  const [view, setView] = useState<'all' | 'saved' | 'students'>('all')
-  const [savedIds, setSavedIds] = useState<string[]>([])
-  const [likedIds, setLikedIds] = useState<string[]>([])
-  const [posts, setPosts] = useState<FeedPost[]>(mockPosts)
+  const [params] = useSearchParams()
+  const [view, setView] = useState<'all' | 'saved' | 'students'>(() => params.get('view') === 'students' ? 'students' : params.get('view') === 'saved' ? 'saved' : 'all')
+  const session = useDemoSession()
+  const { posts, savedIds, likedIds } = session
   const [notice, setNotice] = useState('')
   const [noticeVersion, setNoticeVersion] = useState(0)
   const mainRef = useRef<HTMLElement>(null)
@@ -33,27 +34,16 @@ export function FeedPage() {
   function selectView(next: typeof view) { setComposeRequested(false); setView(next); setMenuOpen(false); mainRef.current?.focus(); window.scrollTo({ top: 0 }) }
   function startConversation() { setView('all'); setComposeRequested(true); mainRef.current?.querySelector<HTMLTextAreaElement>('#feed-composer textarea')?.focus() }
   function toggleSave(id: string) {
-    setSavedIds(previous => previous.includes(id) ? previous.filter(item => item !== id) : [...previous, id])
+    session.toggleSave(id)
     showNotice('Lista de salvos atualizada só nesta sessão. Ela será apagada ao recarregar a página.')
   }
   function toggleLike(id: string) {
-    setLikedIds(previous => previous.includes(id) ? previous.filter(item => item !== id) : [...previous, id])
+    session.toggleLike(id)
     showNotice('Curtida alterada apenas nesta sessão de demonstração.')
   }
   function publishDemo(draft: DemoPostDraft) {
     if (!draft.text.trim() && draft.attachments.length === 0) return
-    const post: FeedPost = {
-      id: `demo-local-${crypto.randomUUID()}`,
-      author: mockViewer,
-      timeLabel: 'Nesta sessão',
-      topic: 'Sua publicação · Demo',
-      text: draft.text,
-      attachments: draft.attachments,
-      localDemo: true,
-      likes: 0,
-      comments: [],
-    }
-    setPosts(previous => [post, ...previous])
+    session.publish(draft)
     selectView('all')
     showNotice('Publicação adicionada ao Feed de demonstração. Não foi salva.')
   }

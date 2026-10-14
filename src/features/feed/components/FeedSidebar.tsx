@@ -1,15 +1,17 @@
 import { Bookmark, ChevronLeft, FileText, GraduationCap, Home, MessageCircle, UserRound, Users } from 'lucide-react'
-import { mockViewer } from '../data/mockFeed'
+import { Link } from 'react-router-dom'
+import { useDemoSession } from '../../demo/demoContext'
 import { Avatar } from './Avatar'
 
-interface Props { open: boolean; collapsed: boolean; view: 'all' | 'saved' | 'students'; onCollapse: () => void; onSelect: (view: 'all' | 'saved' | 'students') => void; onNotice: (message: string) => void }
+interface Props { open: boolean; collapsed: boolean; view: 'all' | 'saved' | 'students' | 'profile'; onCollapse: () => void; onSelect: (view: 'all' | 'saved' | 'students') => void; onNotice: (message: string) => void }
 // Aceternity Sidebar pattern, recreated with explicit keyboard-friendly controls.
 export function FeedSidebar({ open, collapsed, view, onCollapse, onSelect, onNotice }: Props) {
+  const { viewer: mockViewer } = useDemoSession()
   return <aside id="feed-navigation" className={`feed-sidebar ${open ? 'is-open' : ''} ${collapsed ? 'is-collapsed' : ''}`}>
-    <div className="feed-mini-profile"><Avatar student={mockViewer} /><div className="feed-sidebar-label"><strong>{mockViewer.name}</strong><p>{mockViewer.course}</p><span>{mockViewer.institution} · Perfil demonstrativo</span></div></div>
+    <div className="feed-mini-profile"><Link to="/profile" aria-label="Meu perfil"><Avatar student={mockViewer} /></Link><div className="feed-sidebar-label"><Link to="/profile"><strong>{mockViewer.name}</strong></Link><p>{mockViewer.course}</p><span>{mockViewer.institution} · Perfil demonstrativo</span></div></div>
     <nav aria-label="Navegação principal">
       <button title="Meu feed" className={view === 'all' ? 'active' : ''} aria-current={view === 'all' ? 'page' : undefined} onClick={() => onSelect('all')}><Home size={20} /><span className="feed-sidebar-label">Meu feed</span></button>
-      <button title="Perfil — em desenvolvimento" onClick={() => onNotice('A página de perfil está em desenvolvimento.')}><UserRound size={20} /><span className="feed-sidebar-label">Perfil <small>Em breve</small></span></button>
+      <Link to="/profile" title="Perfil" className={view === 'profile' ? 'active' : ''} aria-current={view === 'profile' ? 'page' : undefined}><UserRound size={20} /><span className="feed-sidebar-label">Perfil</span></Link>
       <button title="Estudantes sugeridos" className={view === 'students' ? 'active' : ''} aria-current={view === 'students' ? 'page' : undefined} onClick={() => onSelect('students')}><Users size={20} /><span className="feed-sidebar-label">Estudantes</span></button>
       <button title="Mensagens — em desenvolvimento" onClick={() => onNotice('Mensagens está em desenvolvimento.')}><MessageCircle size={20} /><span className="feed-sidebar-label">Mensagens <small>Em breve</small></span></button>
       <button title="Postagens — em desenvolvimento" onClick={() => onNotice('A página de postagens está em desenvolvimento. Você pode testar uma publicação local no composer do feed.')}><FileText size={20} /><span className="feed-sidebar-label">Postagens <small>Em breve</small></span></button>

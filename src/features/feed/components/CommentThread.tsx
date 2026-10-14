@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import type { FeedComment } from '../types/feed.types'
 import { Avatar } from './Avatar'
 
 function Comment({ comment, onNotice }: { comment: FeedComment; onNotice: (message: string) => void }) {
   const [replying, setReplying] = useState(false)
-  return <li className="feed-comment"><div className="feed-comment-row"><Avatar student={comment.author} small /><div><strong>{comment.author.name}</strong><p>{comment.text}</p><button className="feed-text-button" aria-expanded={replying} onClick={() => setReplying(!replying)}>Responder</button></div></div>
+  return <li className="feed-comment"><div className="feed-comment-row"><Link to={`/profile/${comment.author.id}`} aria-label={`Ver perfil de ${comment.author.name}`}><Avatar student={comment.author} small /></Link><div><Link to={`/profile/${comment.author.id}`}><strong>{comment.author.name}</strong></Link><p>{comment.text}</p><button className="feed-text-button" aria-expanded={replying} onClick={() => setReplying(!replying)}>Responder</button></div></div>
     {replying && <CommentDraft label={`Responder a ${comment.author.name}`} onNotice={onNotice} />}
     {comment.replies && <ul className="feed-replies">{comment.replies.map(reply => <Comment key={reply.id} comment={reply} onNotice={onNotice} />)}</ul>}
   </li>

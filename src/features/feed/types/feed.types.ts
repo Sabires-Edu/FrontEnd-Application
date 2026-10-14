@@ -3,6 +3,7 @@ export interface Student {
   id: string
   name: string
   initials: string
+  photoUrl?: string
   course: string
   institution: string
   tone: 'teal' | 'lavender' | 'peach' | 'blue'
