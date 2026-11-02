@@ -1,6 +1,6 @@
 import { useRef, useState, type FormEvent } from 'react'
 import { ArrowRight, Eye, EyeOff, LoaderCircle } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AnimatedInput } from '../../../components/ui/AnimatedInput'
 import { BoxReveal } from '../../../components/ui/BoxReveal'
 import { ApiError } from '../../../services/api/apiClient'
@@ -9,6 +9,7 @@ import type { LoginFormData } from '../types/auth.types'
 import { validateLogin } from '../utils/authValidation'
 
 export function LoginForm() {
+  const navigate = useNavigate()
   const [form, setForm] = useState<LoginFormData>({ email: '', password: '', rememberMe: false })
   const [visible, setVisible] = useState(false)
   const [errors, setErrors] = useState<ReturnType<typeof validateLogin>>({})
@@ -41,10 +42,20 @@ export function LoginForm() {
     submitting.current = true
     setLoading(true)
     try {
+
       // Retorno unknown: não inferir sessão, tokens ou usuário da resposta.
-      await login({ Email: form.email.trim(), Password: form.password })
-      setSuccess(true)
-      setForm((previous) => ({ ...previous, password: '' }))
+      const result = await login({
+      Email: form.email.trim(),
+      Password: form.password,
+})
+
+      if (!result.success || !result.response?.jwt) {
+      throw new Error('Não foi possível obter o token de acesso.')
+}
+
+    localStorage.setItem('sabires_token', result.response.jwt)
+    navigate('/feed', { replace: true })
+
     } catch (error: unknown) {
       setApiError(error instanceof ApiError
         ? error.status === 401 || error.status === 403

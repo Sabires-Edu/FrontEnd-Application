@@ -3,10 +3,11 @@ import { apiRequest } from '../../../services/api/apiClient'
 import type {
   LoginRequest,
   RegisterRequest,
+  LoginResponse,
 } from '../types/auth.types'
 
 export function login(data: LoginRequest) {
-  return apiRequest<unknown>('/v1/users/me/login', {
+  return apiRequest<LoginResponse>('/v1/users/me/login', {
     method: 'POST',
     body: JSON.stringify(data),
   })

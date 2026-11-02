@@ -13,6 +13,7 @@ import {
   type RegistrationFields,
 } from '../utils/registerValidation'
 
+      //Criando os campos e os inputs da tela de cadastro.
 const fields = [
   { name: 'firstName', label: 'Nome', type: 'text', autoComplete: 'given-name', placeholder: 'Seu nome' },
   { name: 'lastName', label: 'Sobrenome', type: 'text', autoComplete: 'family-name', placeholder: 'Seu sobrenome' },
@@ -24,18 +25,41 @@ const fields = [
 
 export function RegisterForm() {
   const navigate = useNavigate()
-  const [form, setForm] = useState<RegistrationFields>({ firstName: '', lastName: '', email: '', birthDate: '', password: '', confirmPassword: '' })
-  const [visible, setVisible] = useState({ password: false, confirmPassword: false })
+
+  // Armazena os dados preenchidos pelo usuário no formulário de cadastro.
+  const [form, setForm] = useState<RegistrationFields>({
+    firstName: '', 
+    lastName: '', 
+    email: '', 
+    birthDate: '', 
+    password: '', 
+    confirmPassword: '' 
+  })
+  // Controla a exibição ou ocultação dos campos de senha.
+  const [visible, setVisible] = useState({
+    password: false, confirmPassword: false 
+  })
+
   const [errors, setErrors] = useState<RegistrationErrors>({})
+
+  // Controla o estado de carregamento durante o envio do formulário.
   const [loading, setLoading] = useState(false)
+
+  // Armazena mensagens gerais de erro retornadas pela API ou pelo cadastro.
   const [apiError, setApiError] = useState('')
+
   const submitting = useRef(false)
+
+  // Armazena referências aos campos para permitir acessá-los diretamente,
   const inputRefs = useRef<Partial<Record<keyof RegistrationFields, HTMLInputElement | null>>>({})
   // TODO: backend deve definir o StatusId inicial. Nunca assumir um valor padrão.
   const statusId = parseRegistrationStatusId(import.meta.env.VITE_REGISTRATION_STATUS_ID)
 
+  // Preserva os demais campos e atualiza somente o campo informado.
   function updateField(name: keyof RegistrationFields, value: string) {
     setForm((previous) => ({ ...previous, [name]: value }))
+
+    // Limpa o erro do campo alterado e, ao mudar a senha,
     setErrors((previous) => ({ ...previous, [name]: undefined, ...(name === 'password' ? { confirmPassword: undefined } : {}) }))
     setApiError('')
   }
@@ -73,11 +97,25 @@ export function RegisterForm() {
     }
   }
 
+    //Criando os titulos do formulário de cadastro.
   return (
     <div className="mx-auto w-full min-w-0 max-w-sm">
-      <BoxReveal className="mb-3"><p className="text-xs font-semibold tracking-[0.18em] text-teal-700">VEM FAZER PARTE</p></BoxReveal>
-      <BoxReveal><h1 className="sabires-heading text-3xl font-semibold tracking-tight sm:text-4xl">Novas conexões<br />começam com você.</h1></BoxReveal>
-      <BoxReveal className="mb-8 mt-4"><p className="text-sm leading-6 text-slate-600">Crie sua conta no Sabires e compartilhe o que você sabe. Sempre há algo novo para descobrir.</p></BoxReveal>
+      <BoxReveal className="mb-3">
+        <p className="text-xs font-semibold tracking-[0.18em] text-teal-700">VEM FAZER PARTE</p>
+      </BoxReveal>
+
+      <BoxReveal>
+        <h1 className="sabires-heading text-3xl font-semibold tracking-tight sm:text-4xl">
+          Novas conexões<br/>começam com você.
+        </h1>
+      </BoxReveal>
+
+      <BoxReveal className="mb-8 mt-4">
+        <p className="text-sm leading-6 text-slate-600">
+          Crie sua conta no Sabires e compartilhe o que você sabe. Sempre há algo novo para descobrir.
+        </p>
+      </BoxReveal>
+
       <form onSubmit={handleSubmit} noValidate aria-busy={loading}>
         {fields.map(({ name, label, type, autoComplete, placeholder }) => {
           const passwordField = name === 'password' || name === 'confirmPassword' ? name : undefined
@@ -85,7 +123,7 @@ export function RegisterForm() {
           return (
             <BoxReveal key={name} className="mb-5">
               <label htmlFor={`register-${name}`} className="mb-2 block text-sm font-medium">
-                {label}{name === 'lastName' && <span className="ml-1 font-normal text-slate-600">(opcional)</span>}
+                {label}{name === 'lastName' && <span className="ml-1 font-normal text-slate-600"></span>}
               </label>
               <div className="relative min-w-0">
                 <AnimatedInput

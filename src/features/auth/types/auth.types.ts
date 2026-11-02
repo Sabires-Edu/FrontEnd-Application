@@ -29,3 +29,13 @@ export interface RegisterFormData {
   password: string
   confirmPassword: string
 }
+
+//Resposta da API de login
+export interface LoginResponse {
+  success: boolean
+  title: string
+  status: number
+  response: {
+    jwt: string
+  }
+}
