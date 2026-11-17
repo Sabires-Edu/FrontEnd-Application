@@ -1,0 +1,87 @@
+@keyframes sabires-page-enter {
+  from { opacity: .5; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sabires-panel-enter {
+  from { opacity: .6; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sabires-message-in {
+  from { opacity: .55; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sabires-current-icon {
+  0% { scale: 1.05 .84; }
+  54% { scale: .96 1.12; }
+  78% { scale: 1.03 .97; }
+  100% { scale: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sabires-feed {
+    --sabires-ease-out: cubic-bezier(.2, .7, .2, 1);
+  }
+
+  .sabires-feed main.feed-main {
+    animation: sabires-page-enter 360ms var(--sabires-ease-out);
+  }
+
+  .sabires-feed #profile-tabpanel > :is(.feed-panel, .feed-post-list),
+  .sabires-feed .community-chat-messages > ol,
+  .sabires-feed .feed-post [id$="-comments"]:not([hidden]) > .feed-comments,
+  .sabires-feed .profile-editor[open],
+  .sabires-feed .feed-post-options {
+    animation: sabires-panel-enter 290ms var(--sabires-ease-out);
+  }
+
+  .sabires-feed .community-chat-message.mine:last-child > .community-chat-bubble {
+    animation: sabires-message-in 220ms var(--sabires-ease-out);
+  }
+
+  .sabires-feed :is(.feed-sidebar nav, .feed-top-nav) :is(a, button)[aria-current="page"] > svg {
+    animation: sabires-current-icon 340ms var(--sabires-ease-out);
+  }
+
+  .sabires-feed :is(
+    .feed-primary, .feed-connect, .feed-icon-button, .community-outline-link, .feed-collapse,
+    .community-chat-item, .feed-sidebar nav :is(a, button), .feed-top-nav > :is(a, button),
+    .feed-post-actions button, :is(.feed-filter-bar, .profile-tabs, .community-tabs, .community-chat-filters) button
+  ) {
+    transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease,
+      box-shadow 220ms var(--sabires-ease-out), transform 180ms var(--sabires-ease-out);
+  }
+
+  .sabires-feed .feed-collapse svg,
+  .sabires-feed .feed-sidebar nav :is(a, button) > svg {
+    transition: transform 220ms var(--sabires-ease-out);
+  }
+
+  .sabires-feed :is(
+    .feed-primary, .feed-connect, .feed-icon-button, .community-outline-link,
+    .feed-post-actions button, .community-chat-item, .feed-sidebar nav :is(a, button),
+    .feed-top-nav > :is(a, button)
+  ):not(:disabled, [aria-disabled="true"]):active {
+    transform: scale(.965, .94);
+    transition-duration: 90ms;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .sabires-feed :is(.feed-primary, .feed-connect, .community-outline-link):not(:disabled, [aria-disabled="true"]):hover:not(:active) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px #173e2b2b;
+  }
+
+  .sabires-feed .feed-sidebar nav :is(a, button):not(:disabled, [aria-disabled="true"]):hover > svg {
+    transform: translateX(2px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 767px) {
+  .sabires-feed .feed-sidebar.is-open {
+    animation: sabires-panel-enter 270ms var(--sabires-ease-out);
+  }
+}
