@@ -99,7 +99,7 @@ export function LoginForm() {
           </label>
         </BoxReveal>
         {apiError && <p role="alert" className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">{apiError}</p>}
-        {success && <p role="status" className="mb-4 rounded-lg border border-teal-200 bg-teal-50 p-3 text-sm text-teal-900">.Login realizado com sucesso..</p>}
+        {success && <p role="status" className="mb-4 rounded-lg border border-teal-200 bg-teal-50 p-3 text-sm text-teal-900">Login realizado com sucesso.</p>}
         <BoxReveal>
           <button disabled={loading} type="submit" className="group/btn relative flex h-12 w-full items-center justify-center gap-3 rounded-xl bg-[#40E0D0] text-sm font-semibold text-[#1F2937] shadow-sm transition hover:bg-[#65e7da] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700 disabled:cursor-wait disabled:opacity-65">
             {loading ? <><LoaderCircle size={18} className="animate-spin motion-reduce:animate-none" />Acessando...</> : <>Acessar Sabires<ArrowRight size={18} /></>}
@@ -109,6 +109,9 @@ export function LoginForm() {
         </BoxReveal>
         <BoxReveal className="mt-7 text-center"><p className="text-sm text-slate-600">Ainda não faz parte? <Link to="/cadastro" className="font-semibold text-teal-700 underline-offset-4 hover:underline">Cadastre-se</Link></p></BoxReveal>
       </form>
+      <p className="mt-5 text-center text-sm text-slate-600">Quer conhecer as telas sem conectar ao servidor?{' '}
+        <Link to="/feed" className="font-semibold text-teal-700 underline-offset-4 hover:underline">Explorar demonstração</Link>
+      </p>
     </div>
   )
 }

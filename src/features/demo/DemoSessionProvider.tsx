@@ -3,6 +3,8 @@ import { Outlet } from 'react-router-dom'
 import { DemoContext } from './demoContext'
 import { mockPosts } from '../feed/data/mockFeed'
 import { mockOwnProfile } from '../profile/data/mockProfiles'
+import { mockConversations } from './mockConversations'
+import type { DemoConversation } from './demoContext'
 import type { DemoPostDraft, FeedPost } from '../feed/types/feed.types'
 import type { ProfileDetails } from '../profile/types/profile.types'
 
@@ -15,6 +17,7 @@ export function DemoSessionProvider() {
   const [likedIds, setLikedIds] = useState<string[]>([])
   const [savedIds, setSavedIds] = useState<string[]>([])
   const [connectionIds, setConnectionIds] = useState<string[]>([])
+  const [conversations, setConversations] = useState<DemoConversation[]>(mockConversations)
   const photoUrl = useRef<string | undefined>(undefined)
   useEffect(() => () => { if (photoUrl.current) URL.revokeObjectURL(photoUrl.current) }, [])
 
@@ -36,8 +39,15 @@ export function DemoSessionProvider() {
       attachments: draft.attachments, localDemo: true, likes: 0, comments: [] }
     setPosts(previous => [post, ...previous])
   }
+  function sendMessage(conversationId: string, text: string) {
+    const content = text.trim()
+    if (!content || content.length > 2000) return
+    setConversations(previous => previous.map(conversation => conversation.id === conversationId
+      ? { ...conversation, messages: [...conversation.messages, { id: crypto.randomUUID(), senderId: viewer.id, text: content, time: 'Agora' }] }
+      : conversation))
+  }
   const posts = rawPosts.map(post => post.author.id === viewer.id ? { ...post, author: viewer } : post)
-  return <DemoContext.Provider value={{ viewer, posts, likedIds, savedIds, connectionIds,
+  return <DemoContext.Provider value={{ viewer, posts, likedIds, savedIds, connectionIds, conversations, sendMessage,
     toggleLike: id => setLikedIds(previous => toggle(previous, id)),
     toggleSave: id => setSavedIds(previous => toggle(previous, id)),
     toggleConnection: id => setConnectionIds(previous => toggle(previous, id)),

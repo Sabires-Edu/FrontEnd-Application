@@ -5,7 +5,7 @@ import { FeedSidebar } from '../components/FeedSidebar'
 import { PostComposer } from '../components/PostComposer'
 import { SuggestedStudents } from '../components/SuggestedStudents'
 import { FeedContent } from '../components/FeedContent'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useDemoSession } from '../../demo/demoContext'
 import type { DemoPostDraft } from '../types/feed.types'
 import '../feed.css'
@@ -15,6 +15,7 @@ export function FeedPage() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [collapsed, setCollapsed] = useState(false)
   const [params] = useSearchParams()
+  const navigate = useNavigate()
   const [view, setView] = useState<'all' | 'saved' | 'students'>(() => params.get('view') === 'students' ? 'students' : params.get('view') === 'saved' ? 'saved' : 'all')
   const session = useDemoSession()
   const { posts, savedIds, likedIds } = session
@@ -49,7 +50,7 @@ export function FeedPage() {
   }
   return <div className="sabires-feed" onKeyDown={event => { if (event.key === 'Escape') { setMenuOpen(false); setNotice('') } }}>
     <a className="feed-skip-link" href="#feed-main">Pular para o conteúdo</a>
-    <FeedHeader view={view} onHome={() => selectView('all')} menuOpen={menuOpen} onMenu={() => setMenuOpen(!menuOpen)} onNotice={showNotice} onStudents={() => selectView('students')} />
+    <FeedHeader view={view} onHome={() => selectView('all')} menuOpen={menuOpen} onMenu={() => setMenuOpen(!menuOpen)} onNotice={showNotice} onStudents={() => navigate('/usuarios')} />
     <div className={`feed-layout ${collapsed ? 'feed-layout--collapsed' : ''}`}>
       <FeedSidebar open={menuOpen} collapsed={collapsed} view={view} onCollapse={() => setCollapsed(!collapsed)} onSelect={selectView} onNotice={showNotice} />
       <main id="feed-main" ref={mainRef} tabIndex={-1} className="feed-main">
@@ -58,7 +59,7 @@ export function FeedPage() {
         <div id="feed-composer" hidden={view === 'students'}><PostComposer onPublish={publishDemo} /></div>
         {view === 'students' ? <SuggestedStudents onNotice={showNotice} onCompose={startConversation} /> : <>
           <div className="feed-filter-bar"><div><button className={view === 'all' ? 'active' : ''} aria-pressed={view === 'all'} onClick={() => setView('all')}>Para você</button><button className={view === 'saved' ? 'active' : ''} aria-pressed={view === 'saved'} onClick={() => setView('saved')}>Salvos <span>{savedIds.length}</span></button></div><span>Seleção demonstrativa</span></div>
-          <FeedContent state="ready" posts={view === 'saved' ? posts.filter(post => savedIds.includes(post.id)) : posts} likedIds={likedIds} onLike={toggleLike} savedIds={savedIds} onSave={toggleSave} onNotice={showNotice} onReset={() => selectView('all')} />
+          <FeedContent view={view} state="ready" posts={view === 'saved' ? posts.filter(post => savedIds.includes(post.id)) : posts} likedIds={likedIds} onLike={toggleLike} savedIds={savedIds} onSave={toggleSave} onNotice={showNotice} onReset={() => selectView('all')} />
           <p className="feed-end">Você chegou ao fim desta seleção.<br /><span>Uma nova conversa pode começar com você.</span></p>
         </>}
       </main>

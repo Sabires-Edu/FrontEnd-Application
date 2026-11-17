@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDemoSession } from '../../demo/demoContext'
 import { Avatar } from './Avatar'
 
-interface Props { open: boolean; collapsed: boolean; view: 'all' | 'saved' | 'students' | 'profile'; onCollapse: () => void; onSelect: (view: 'all' | 'saved' | 'students') => void; onNotice: (message: string) => void }
+interface Props { open: boolean; collapsed: boolean; view: 'all' | 'saved' | 'students' | 'profile' | 'users' | 'posts' | 'messages'; onCollapse: () => void; onSelect: (view: 'all' | 'saved' | 'students') => void; onNotice: (message: string) => void }
 // Aceternity Sidebar pattern, recreated with explicit keyboard-friendly controls.
-export function FeedSidebar({ open, collapsed, view, onCollapse, onSelect, onNotice }: Props) {
+export function FeedSidebar({ open, collapsed, view, onCollapse, onSelect }: Props) {
   const { viewer: mockViewer } = useDemoSession()
   const navigate = useNavigate()
 
@@ -18,9 +18,9 @@ export function FeedSidebar({ open, collapsed, view, onCollapse, onSelect, onNot
     <nav aria-label="Navegação principal">
       <button title="Meu feed" className={view === 'all' ? 'active' : ''} aria-current={view === 'all' ? 'page' : undefined} onClick={() => onSelect('all')}><Home size={20} /><span className="feed-sidebar-label">Meu feed</span></button>
       <Link to="/profile" title="Perfil" className={view === 'profile' ? 'active' : ''} aria-current={view === 'profile' ? 'page' : undefined}><UserRound size={20} /><span className="feed-sidebar-label">Perfil</span></Link>
-      <button title="Estudantes sugeridos" className={view === 'students' ? 'active' : ''} aria-current={view === 'students' ? 'page' : undefined} onClick={() => onSelect('students')}><Users size={20} /><span className="feed-sidebar-label">Estudantes</span></button>
-      <button title="Mensagens — em desenvolvimento" onClick={() => onNotice('Mensagens está em desenvolvimento.')}><MessageCircle size={20} /><span className="feed-sidebar-label">Mensagens <small>Em breve</small></span></button>
-      <button title="Postagens — em desenvolvimento" onClick={() => onNotice('A página de postagens está em desenvolvimento. Você pode testar uma publicação local no composer do feed.')}><FileText size={20} /><span className="feed-sidebar-label">Postagens <small>Em breve</small></span></button>
+      <Link to="/usuarios" title="Usuários" className={view === 'users' || view === 'students' ? 'active' : ''} aria-current={view === 'users' || view === 'students' ? 'page' : undefined}><Users size={20} /><span className="feed-sidebar-label">Usuários</span></Link>
+      <Link to="/mensagens" title="Mensagens" className={view === 'messages' ? 'active' : ''} aria-current={view === 'messages' ? 'page' : undefined}><MessageCircle size={20} /><span className="feed-sidebar-label">Mensagens</span></Link>
+      <Link to="/postagens" title="Postagens" className={view === 'posts' ? 'active' : ''} aria-current={view === 'posts' ? 'page' : undefined}><FileText size={20} /><span className="feed-sidebar-label">Postagens</span></Link>
       <button title="Salvos nesta sessão" className={view === 'saved' ? 'active' : ''} aria-current={view === 'saved' ? 'page' : undefined} onClick={() => onSelect('saved')}><Bookmark size={20} /><span className="feed-sidebar-label">Salvos nesta sessão</span></button>
       <button
       

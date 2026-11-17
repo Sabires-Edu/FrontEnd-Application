@@ -3,8 +3,8 @@
 .sabires-feed button, .sabires-feed input, .sabires-feed textarea { font: inherit; }
 .sabires-feed button, .sabires-feed a, .sabires-feed summary { -webkit-tap-highlight-color: transparent; }
 .sabires-feed button { cursor: pointer; }
-.sabires-feed button:disabled { cursor: not-allowed; opacity: 1; color: #59665f; background: #e9ede9; border-color: #d3dcd5; }
-.sabires-feed button, .sabires-feed a { transition: background-color .15s, color .15s; }
+.sabires-feed button:disabled { cursor: not-allowed; opacity: 1; }
+.sabires-feed button, .sabires-feed a { transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, transform 150ms ease, box-shadow 180ms ease; }
 .sabires-feed :focus-visible { outline: 3px solid #0f766e; outline-offset: 4px; }
 .sabires-feed h1, .sabires-feed h2, .feed-brand { font-family: 'Sora', sans-serif; }
 .sabires-feed h1, .sabires-feed h2, .sabires-feed p { margin: 0; }
@@ -246,5 +246,51 @@
   .feed-student strong { font-size: 14px; }
   .feed-student p, .feed-student > div > span, .feed-student details { font-size: 12px; }
   .feed-connect { min-height: 38px; }
+}
+/* State feedback uses the existing community palette. */
+.sabires-feed .feed-post-actions button.is-selected,
+.sabires-feed .feed-connect[aria-pressed="true"] { background: #e2efe8; color: #0c655e; box-shadow: inset 0 0 0 1px #b9d7cb; }
+.sabires-feed :is(button, a)[aria-disabled="true"],
+.sabires-feed button:disabled { transform: none; box-shadow: none; }
+.sabires-feed button:disabled { color: #59665f; background: #e9ede9; border-color: #d3dcd5; }
+@media (hover: hover) and (pointer: fine) {
+  .sabires-feed :is(.feed-primary, .feed-connect, .community-outline-link):not(:disabled):not([aria-disabled="true"]):hover { box-shadow: 0 4px 10px #203d251c; }
+  .sabires-feed :is(.feed-filter-bar, .community-tabs, .profile-tabs, .community-chat-filters) button:not(:disabled):not(.active):not([aria-selected="true"]):hover { color: #095c55; border-bottom-color: #b9d7cb; }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .sabires-feed :is(.feed-primary, .feed-connect, .community-outline-link):not(:disabled):not([aria-disabled="true"]):hover { transform: translateY(-2px); }
+}
+/* Alternate names restart only on view changes, without remounting form state. */
+@keyframes feed-enter {
+  from { opacity: 0; transform: translateY(var(--feed-enter-distance, 6px)); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes feed-enter-secondary {
+  from { opacity: 0; transform: translateY(var(--feed-enter-distance, 6px)); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes feed-enter-tertiary {
+  from { opacity: 0; transform: translateY(var(--feed-enter-distance, 6px)); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sabires-feed :is(button, a.feed-primary, a.community-outline-link):not(:disabled):not([aria-disabled="true"]):active { transform: scale(.97); transition-duration: 100ms; }
+  .sabires-feed .feed-main { --feed-enter-distance: 8px; animation: feed-enter 260ms cubic-bezier(.22, 1, .36, 1); }
+  .sabires-feed [data-motion-view],
+  .sabires-feed .community-chat-header,
+  .sabires-feed .community-chat-messages,
+  .sabires-feed .feed-comments,
+  .sabires-feed .profile-editor[open] { --feed-enter-distance: 6px; animation: feed-enter 200ms cubic-bezier(.22, 1, .36, 1); }
+  .sabires-feed [data-motion-view="saved"],
+  .sabires-feed [data-motion-view="about"],
+  .sabires-feed [data-motion-view="requested"],
+  .sabires-feed [data-motion-view="direct"] { animation-name: feed-enter-secondary; }
+  .sabires-feed [data-motion-view="students"],
+  .sabires-feed [data-motion-view="connections"],
+  .sabires-feed [data-motion-view="mine"],
+  .sabires-feed [data-motion-view="group"] { animation-name: feed-enter-tertiary; }
+}
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .sabires-feed .feed-sidebar.is-open { --feed-enter-distance: 6px; animation: feed-enter 200ms cubic-bezier(.22, 1, .36, 1); }
 }
 @media (prefers-reduced-motion: reduce) { .sabires-feed *, .sabires-feed *::before, .sabires-feed *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
