@@ -67,7 +67,20 @@
 .profile-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0 16px; }
 .profile-fields > div { min-width: 0; }
 .profile-editor label { font-size: 13px; font-weight: 500; }
-.profile-editor input:not([type="file"]), .profile-editor textarea { width: 100%; min-width: 0; border: 1px solid #80978b; border-radius: 7px; padding: 10px 12px; font-size: 15px; background: white; margin-top: 6px; }
+.profile-editor input:not([type="file"]),
+.profile-editor textarea,
+.profile-editor select {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #80978b;
+  border-radius: 7px;
+  padding: 10px 12px;
+  font-size: 15px;
+  background: white;
+  margin-top: 6px;
+  color: #1f2937;
+}
+
 .profile-editor textarea { display: block; resize: vertical; max-height: 220px; }
 .profile-editor [aria-invalid="true"] { border-color: #b84235 !important; }
 .profile-error { color: #a12f26; font-size: 12px; line-height: 1.6; margin-top: 5px !important; }
