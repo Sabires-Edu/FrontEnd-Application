@@ -8,6 +8,8 @@ import { DemoSessionProvider } from '../features/demo/DemoSessionProvider'
 import { UsersPage } from '../features/connections/pages/UsersPage'
 import { PostsPage } from '../features/posts/pages/PostsPage'
 import { MessagesPage } from '../features/messages/pages/MessagesPage'
+import { RequestsPage } from '../features/connections/pages/RequestsPage'
+import { TrashPage } from '../features/posts/pages/TrashPage'
 
 function App() {
   return (
@@ -23,8 +25,11 @@ function App() {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/profile/:userId" element={<ProfilePage />} />
             <Route path="/usuarios" element={<UsersPage />} />
+            <Route path="/solicitacoes" element={<RequestsPage />} />
             <Route path="/postagens" element={<PostsPage />} />
             <Route path="/mensagens" element={<MessagesPage />} />
+            <Route path="/lixeira" element={<TrashPage />} />
+            
           </Route>
         </Route>
 

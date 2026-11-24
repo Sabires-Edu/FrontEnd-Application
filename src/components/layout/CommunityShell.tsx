@@ -6,7 +6,7 @@ import { FeedSidebar } from '../../features/feed/components/FeedSidebar'
 import '../../features/feed/feed.css'
 import './community.css'
 
-type CommunityView = 'users' | 'posts' | 'messages'
+type CommunityView = 'users' | 'posts' | 'messages' | 'requests' | 'trash'
 interface Props {
   view: CommunityView
   eyebrow: string
@@ -14,9 +14,10 @@ interface Props {
   notice: string
   onNotice: (message: string) => void
   children: ReactNode
+  showDemoNotice?: boolean
 }
 
-export function CommunityShell({ view, eyebrow, title, notice, onNotice, children }: Props) {
+export function CommunityShell({ view, eyebrow, title, notice, onNotice, children,showDemoNotice = true,}: Props) {
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const [collapsed, setCollapsed] = useState(false)
@@ -27,7 +28,14 @@ export function CommunityShell({ view, eyebrow, title, notice, onNotice, childre
       <FeedSidebar view={view} open={menuOpen} collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)} onSelect={next => navigate(next === 'all' ? '/feed' : next === 'students' ? '/usuarios' : `/feed?view=${next}`)} onNotice={onNotice} />
       <main id="community-main" className="feed-main" tabIndex={-1}>
         <div className="feed-page-heading"><div><p className="feed-eyebrow">{eyebrow}</p><h1>{title}</h1></div><span className="feed-heading-mark" aria-hidden="true">✳</span></div>
-        <div className="feed-demo-notice"><Info size={15} /><span>Modo demonstração: conteúdos e conversas fictícios. Interações ficam apenas nesta navegação e desaparecem ao recarregar.</span></div>
+        {showDemoNotice && (
+    <div className="feed-demo-notice">
+        <Info size={15} />
+        <span>
+            Modo demonstração: conteúdos e conversas fictícios. Interações ficam apenas nesta navegação e desaparecem ao recarregar.
+        </span>
+    </div>
+)}
         {children}
       </main>
     </div>

@@ -7,6 +7,9 @@ export interface Student {
   course: string
   institution: string
   tone: 'teal' | 'lavender' | 'peach' | 'blue'
+  followers?: number
+  following?: number
+  followerStatusId?: number
 }
 
 export interface SuggestedStudent extends Student {
@@ -40,10 +43,13 @@ export interface FeedPost {
   text: string
   likes: number
   comments: FeedComment[]
+  commentsCount?: number
+  imageUrls?: string[]
   featured?: boolean
   localDemo?: boolean
   attachments?: DemoAttachment[]
   resource?: { title: string; description: string; label: string }
+
 }
 
 export type FeedViewState = 'ready' | 'loading' | 'error'

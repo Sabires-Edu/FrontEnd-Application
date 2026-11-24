@@ -10,9 +10,11 @@ export interface Profile extends Student {
 export interface ProfileDetails {
   firstName: string
   lastName: string
+  email: string
   formation: string
   birthDate: string
   biography: string
 }
+
 
 export interface OwnProfile extends Profile, ProfileDetails {}

@@ -3,7 +3,7 @@ import type { OwnProfile, Profile } from '../types/profile.types'
 
 export const mockOwnProfile: OwnProfile = {
   ...mockViewer,
-  firstName: 'Alex', lastName: 'Santos', email: 'alex.santos@example.com',
+  firstName: 'Alex', lastName: 'Santos', email: 'alex.santos@example.com', formation: 'Análise e Desenvolvimento de Sistemas',
   birthDate: '2003-05-14',
   biography: 'Aprendendo a transformar curiosidade em projetos. Gosto de trocar ideias sobre tecnologia, compartilhar descobertas e encontrar novos jeitos de estudar.',
   interests: ['Desenvolvimento web', 'Aprendizagem colaborativa', 'Tecnologia'],
