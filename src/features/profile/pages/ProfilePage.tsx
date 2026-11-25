@@ -49,8 +49,7 @@ function getFormationName(statusId: number): string {
     1: 'Ensino Médio',
     2: 'Ensino Superior',
     3: 'Graduado',
-    4: 'Professor',
-    5: 'Administrador',
+    4: 'Professor',    
     6: 'Outros',
   }
 
@@ -63,8 +62,7 @@ function getFormationId(formation: string): number {
     'Ensino Médio': 1,
     'Ensino Superior': 2,
     Graduado: 3,
-    Professor: 4,
-    Administrador: 5,
+    Professor: 4,    
     Outros: 6,
   }
 

@@ -23,8 +23,7 @@ const formationOptions = [
   'Ensino Médio',
   'Ensino Superior',
   'Graduado',
-  'Professor',
-  'Administrador',
+  'Professor',  
   'Outros',
 ]
 
