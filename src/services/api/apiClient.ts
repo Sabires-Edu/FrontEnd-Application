@@ -1,4 +1,12 @@
+
 const API_URL = import.meta.env.VITE_API_URL
+
+interface ApiErrorResponse {
+  success?: boolean
+  title?: string
+  detail?: string
+  status?: number
+}
 
 export class ApiError extends Error {
   status: number
@@ -40,8 +48,18 @@ export async function apiRequest<T>(
     : await response.text()
 
   if (!response.ok) {
+    const errorData = data as ApiErrorResponse
+
+    const errorMessage =
+      (typeof errorData === 'object' && errorData !== null
+        ? errorData.detail || errorData.title
+        : typeof data === 'string' && data
+          ? data
+        : undefined) ||
+          'Não foi possível conectar ao servidor. Tente novamente em instantes.'
+
     throw new ApiError(
-      'Não foi possível conectar ao servidor. Tente novamente em instantes.',
+      errorMessage,
       response.status,
       data,
     )
